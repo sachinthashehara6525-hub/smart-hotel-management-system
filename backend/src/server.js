@@ -2,20 +2,18 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const roomRoutes = require("./routes/roomRoutes");
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/rooms", roomRoutes);
+
 app.get("/", (req, res) => {
     res.json({
         message: "Smart Hotel Management System API is running"
-    });
-});
-
-app.get("/api/rooms", (req, res) => {
-    res.json({
-        message: "Rooms API is working"
     });
 });
 
