@@ -26,6 +26,21 @@
 .summary-heading span { color: #8a94a6; font-size: 12px; }
 .summary-row { display: flex; justify-content: space-between; padding: 15px 0 0; color: #687386; font-size: 14px; }
 .summary-row strong { color: #172033; }
+.table-card { background: #fff; border: 1px solid #e4e8ef; border-radius: 8px; box-shadow: 0 4px 16px rgba(34, 51, 84, .04); overflow: hidden; }
+.table-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; border-bottom: 1px solid #edf0f4; }
+.table-heading h2 { margin: 0; color: #172033; font-size: 18px; }
+.table-heading span { color: #8a94a6; font-size: 12px; }
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 560px; text-align: left; }
+th, td { padding: 16px 22px; border-bottom: 1px solid #edf0f4; color: #687386; font-size: 14px; }
+th { background: #fafbfd; color: #536075; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: #fbfcfe; }
+.room-number { color: #172033; font-weight: 700; }
+.status-badge { display: inline-block; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 700; }
+.status-badge.available { color: #20734d; background: #e7f6ee; }
+.status-badge.occupied { color: #9a5b14; background: #fff1dc; }
+.status-badge.maintenance { color: #a33e45; background: #fbe8e9; }
 .placeholder-card { background: #fff; border: 1px solid #e4e8ef; border-radius: 10px; padding: 24px; box-shadow: 0 4px 16px rgba(34, 51, 84, .04); }
 .placeholder-card strong { display: block; color: #172033; font-size: 24px; margin-top: 8px; }
 .placeholder-card span { color: #687386; font-size: 14px; }
