@@ -41,6 +41,19 @@ tbody tr:hover { background: #fbfcfe; }
 .status-badge.available { color: #20734d; background: #e7f6ee; }
 .status-badge.occupied { color: #9a5b14; background: #fff1dc; }
 .status-badge.maintenance { color: #a33e45; background: #fbe8e9; }
+.status-badge.confirmed { color: #255da8; background: #e8f0ff; }
+.status-badge.checked-in { color: #20734d; background: #e7f6ee; }
+.status-badge.completed { color: #596579; background: #edf0f4; }
+.status-badge.cancelled { color: #a33e45; background: #fbe8e9; }
+.booking-management-card { width: 100%; }
+.booking-management-card table { min-width: 1080px; }
+.booking-id { color: #172033; font-weight: 700; }
+.booking-actions { white-space: nowrap; }
+.action-button { border: 1px solid transparent; border-radius: 5px; padding: 7px 9px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.action-button.update { color: #2364d2; background: #edf3ff; }
+.action-button.cancel { color: #a33e45; background: #fbe8e9; margin-left: 6px; }
+.action-button:hover { filter: brightness(.96); }
+.action-button:disabled { cursor: not-allowed; opacity: .5; }
 .booking-card { max-width: 720px; background: #fff; border: 1px solid #e4e8ef; border-radius: 8px; padding: 28px; box-shadow: 0 4px 16px rgba(34, 51, 84, .04); }
 .booking-form { display: grid; gap: 9px; }
 .booking-form label { color: #172033; font-size: 14px; font-weight: 600; }
