@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' })
+  const navigate = useNavigate()
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -11,6 +12,7 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault()
+    navigate('/dashboard')
   }
 
   return (
