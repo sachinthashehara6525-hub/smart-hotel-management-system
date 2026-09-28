@@ -1,11 +1,17 @@
 const express = require("express");
 
+const {
+    getRooms,
+    createRoom,
+    getRoomById,
+    updateRoom
+} = require("../controllers/roomController");
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json({
-        message: "Room API is working"
-    });
-});
+router.get("/", getRooms);
+router.post("/", createRoom);
+router.get("/:id", getRoomById);
+router.put("/:id", updateRoom);
 
 module.exports = router;
