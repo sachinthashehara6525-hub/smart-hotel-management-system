@@ -1,13 +1,6 @@
-function Rooms() {
-  const rooms = [
-    { number: '101', type: 'Single', price: '$85 / night', status: 'Available' },
-    { number: '102', type: 'Double', price: '$120 / night', status: 'Occupied' },
-    { number: '201', type: 'Deluxe', price: '$180 / night', status: 'Available' },
-    { number: '202', type: 'Suite', price: '$250 / night', status: 'Maintenance' },
-    { number: '301', type: 'Double', price: '$120 / night', status: 'Occupied' },
-    { number: '302', type: 'Deluxe', price: '$180 / night', status: 'Available' },
-  ]
+import { rooms } from '../services/mockData'
 
+function Rooms() {
   return (
     <>
       <header className="page-header">

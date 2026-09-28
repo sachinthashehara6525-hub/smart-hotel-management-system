@@ -1,12 +1,8 @@
 import { useState } from 'react'
+import { bookings as initialBookings } from '../services/mockData'
 
 function BookingManagement() {
-  const [bookings, setBookings] = useState([
-    { id: 'BK-1001', customer: 'Ava Johnson', room: '101', checkIn: '2026-09-26', checkOut: '2026-09-29', status: 'Confirmed' },
-    { id: 'BK-1002', customer: 'Liam Williams', room: '201', checkIn: '2026-09-27', checkOut: '2026-10-02', status: 'Checked-in' },
-    { id: 'BK-1003', customer: 'Sophia Brown', room: '301', checkIn: '2026-09-28', checkOut: '2026-10-01', status: 'Confirmed' },
-    { id: 'BK-1004', customer: 'Noah Davis', room: '202', checkIn: '2026-09-25', checkOut: '2026-09-27', status: 'Completed' },
-  ])
+  const [bookings, setBookings] = useState(initialBookings)
 
   const statusSequence = ['Confirmed', 'Checked-in', 'Completed']
 
