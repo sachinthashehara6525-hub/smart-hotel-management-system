@@ -4,10 +4,10 @@ import Footer from '../components/landing/Footer'
 
 function LandingGalleryPage() {
   return (
-    <div className="landing-page landing-subpage">
+    <div className="landing-page landing-subpage gallery-page">
       <LandingNavbar />
       <Gallery />
-      <Footer />
+      <Footer variant="gallery" />
     </div>
   )
 }

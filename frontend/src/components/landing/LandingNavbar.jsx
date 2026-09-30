@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function LandingNavbar() {
   return (
@@ -10,10 +10,18 @@ function LandingNavbar() {
         </Link>
 
         <nav className="landing-nav-links">
-          <Link to="/hotel/rooms">Rooms</Link>
-          <Link to="/hotel/amenities">Amenities</Link>
-          <Link to="/hotel/gallery">Gallery</Link>
-          <Link to="/hotel/contact">Contact</Link>
+          <NavLink to="/hotel/rooms" className={({ isActive }) => isActive ? "landing-nav-link is-active" : "landing-nav-link"}>
+            Rooms
+          </NavLink>
+          <NavLink to="/hotel/amenities" className={({ isActive }) => isActive ? "landing-nav-link is-active" : "landing-nav-link"}>
+            Amenities
+          </NavLink>
+          <NavLink to="/hotel/gallery" className={({ isActive }) => isActive ? "landing-nav-link is-active" : "landing-nav-link"}>
+            Gallery
+          </NavLink>
+          <NavLink to="/hotel/contact" className={({ isActive }) => isActive ? "landing-nav-link is-active" : "landing-nav-link"}>
+            Contact
+          </NavLink>
         </nav>
 
         <div className="landing-nav-actions">

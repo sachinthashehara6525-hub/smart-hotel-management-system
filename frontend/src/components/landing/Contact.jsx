@@ -2,12 +2,14 @@ function Contact() {
   return (
     <section className="landing-section landing-contact" id="contact">
       <div className="landing-container">
-        <div className="landing-section-heading">
-          <p className="landing-eyebrow">GET IN TOUCH</p>
+        <div className="landing-contact-heading">
+          <div>
+            <p className="landing-eyebrow">GET IN TOUCH</p>
+            <p className="landing-contact-lead">
+              Reach out for reservations, inquiries, or special requests.
+            </p>
+          </div>
           <h2>Plan Your Stay</h2>
-          <p>
-            Reach out for reservations, inquiries, or special requests.
-          </p>
         </div>
 
         <div className="landing-contact-grid">

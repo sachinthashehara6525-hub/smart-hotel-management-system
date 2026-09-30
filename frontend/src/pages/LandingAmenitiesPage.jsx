@@ -4,10 +4,10 @@ import Footer from '../components/landing/Footer'
 
 function LandingAmenitiesPage() {
   return (
-    <div className="landing-page landing-subpage">
+    <div className="landing-page landing-subpage amenities-page">
       <LandingNavbar />
       <Amenities />
-      <Footer />
+      <Footer variant="amenities" />
     </div>
   )
 }

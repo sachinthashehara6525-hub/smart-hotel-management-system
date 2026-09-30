@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import hotelHero from '../assets/hotel-hero.jpg'
+import './login.css'
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -16,7 +18,7 @@ function Login() {
   }
 
   return (
-    <div className="auth-page">
+    <div className="login-page" style={{ '--login-background': `url(${hotelHero})` }}>
       <section className="auth-panel">
         <h1>Welcome back</h1>
         <p>Sign in to manage your hotel.</p>
