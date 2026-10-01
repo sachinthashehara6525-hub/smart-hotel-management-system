@@ -1,151 +1,268 @@
-let bookings = [
-    {
-        bookingId: 1,
-        customerName: "John Doe",
-        roomNumber: 101,
-        checkInDate: "2026-10-01",
-        checkOutDate: "2026-10-05",
-        numberOfGuests: 2,
-        status: "Confirmed"
-    }
-];
+const db = require("../config/db");
 
 // Get all bookings
-const getBookings = (req, res) => {
-    res.json(bookings);
+const getBookings = async (req, res) => {
+    try {
+        const [rows] = await db.query(`
+            SELECT
+                booking_id AS bookingId,
+                customer_name AS customerName,
+                room_number AS roomNumber,
+                check_in_date AS checkInDate,
+                check_out_date AS checkOutDate,
+                number_of_guests AS numberOfGuests,
+                status
+            FROM bookings
+            ORDER BY booking_id
+        `);
+
+        res.json(rows);
+
+    } catch (error) {
+        console.error("Get bookings error:", error);
+
+        res.status(500).json({
+            message: "Failed to retrieve bookings"
+        });
+    }
 };
+
 
 // Create a new booking
-const createBooking = (req, res) => {
-    const {
-        customerName,
-        roomNumber,
-        checkInDate,
-        checkOutDate,
-        numberOfGuests
-    } = req.body;
+const createBooking = async (req, res) => {
+    try {
+        const {
+            customerName,
+            roomNumber,
+            checkInDate,
+            checkOutDate,
+            numberOfGuests
+        } = req.body;
 
-    if (
-        !customerName ||
-        !roomNumber ||
-        !checkInDate ||
-        !checkOutDate ||
-        !numberOfGuests
-    ) {
-        return res.status(400).json({
-            message: "All booking fields are required"
+        if (
+            !customerName ||
+            !roomNumber ||
+            !checkInDate ||
+            !checkOutDate ||
+            !numberOfGuests
+        ) {
+            return res.status(400).json({
+                message: "All booking fields are required"
+            });
+        }
+
+        const [result] = await db.query(
+            `
+            INSERT INTO bookings
+            (
+                customer_name,
+                room_number,
+                check_in_date,
+                check_out_date,
+                number_of_guests,
+                status
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            `,
+            [
+                customerName,
+                roomNumber,
+                checkInDate,
+                checkOutDate,
+                numberOfGuests,
+                "Confirmed"
+            ]
+        );
+
+        const [rows] = await db.query(
+            `
+            SELECT
+                booking_id AS bookingId,
+                customer_name AS customerName,
+                room_number AS roomNumber,
+                check_in_date AS checkInDate,
+                check_out_date AS checkOutDate,
+                number_of_guests AS numberOfGuests,
+                status
+            FROM bookings
+            WHERE booking_id = ?
+            `,
+            [result.insertId]
+        );
+
+        res.status(201).json({
+            message: "Booking created successfully",
+            booking: rows[0]
+        });
+
+    } catch (error) {
+        console.error("Create booking error:", error);
+
+        res.status(500).json({
+            message: "Failed to create booking"
         });
     }
-
-    const newBooking = {
-        bookingId: bookings.length + 1,
-        customerName,
-        roomNumber,
-        checkInDate,
-        checkOutDate,
-        numberOfGuests,
-        status: "Confirmed"
-    };
-
-    bookings.push(newBooking);
-
-    res.status(201).json({
-        message: "Booking created successfully",
-        booking: newBooking
-    });
 };
+
 
 // Get booking by ID
-const getBookingById = (req, res) => {
-    const bookingId = parseInt(req.params.id);
+const getBookingById = async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.id);
 
-    const booking = bookings.find(
-        (booking) => booking.bookingId === bookingId
-    );
+        const [rows] = await db.query(
+            `
+            SELECT
+                booking_id AS bookingId,
+                customer_name AS customerName,
+                room_number AS roomNumber,
+                check_in_date AS checkInDate,
+                check_out_date AS checkOutDate,
+                number_of_guests AS numberOfGuests,
+                status
+            FROM bookings
+            WHERE booking_id = ?
+            `,
+            [bookingId]
+        );
 
-    if (!booking) {
-        return res.status(404).json({
-            message: "Booking not found"
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "Booking not found"
+            });
+        }
+
+        res.json(rows[0]);
+
+    } catch (error) {
+        console.error("Get booking error:", error);
+
+        res.status(500).json({
+            message: "Failed to retrieve booking"
         });
     }
-
-    res.json(booking);
 };
+
 
 // Update booking
-const updateBooking = (req, res) => {
-    const bookingId = parseInt(req.params.id);
+const updateBooking = async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.id);
 
-    const booking = bookings.find(
-        (booking) => booking.bookingId === bookingId
-    );
+        const [existingRows] = await db.query(
+            "SELECT * FROM bookings WHERE booking_id = ?",
+            [bookingId]
+        );
 
-    if (!booking) {
-        return res.status(404).json({
-            message: "Booking not found"
+        if (existingRows.length === 0) {
+            return res.status(404).json({
+                message: "Booking not found"
+            });
+        }
+
+        const existing = existingRows[0];
+
+        const customerName =
+            req.body.customerName ?? existing.customer_name;
+
+        const roomNumber =
+            req.body.roomNumber ?? existing.room_number;
+
+        const checkInDate =
+            req.body.checkInDate ?? existing.check_in_date;
+
+        const checkOutDate =
+            req.body.checkOutDate ?? existing.check_out_date;
+
+        const numberOfGuests =
+            req.body.numberOfGuests ?? existing.number_of_guests;
+
+        const status =
+            req.body.status ?? existing.status;
+
+        await db.query(
+            `
+            UPDATE bookings
+            SET
+                customer_name = ?,
+                room_number = ?,
+                check_in_date = ?,
+                check_out_date = ?,
+                number_of_guests = ?,
+                status = ?
+            WHERE booking_id = ?
+            `,
+            [
+                customerName,
+                roomNumber,
+                checkInDate,
+                checkOutDate,
+                numberOfGuests,
+                status,
+                bookingId
+            ]
+        );
+
+        const [updatedRows] = await db.query(
+            `
+            SELECT
+                booking_id AS bookingId,
+                customer_name AS customerName,
+                room_number AS roomNumber,
+                check_in_date AS checkInDate,
+                check_out_date AS checkOutDate,
+                number_of_guests AS numberOfGuests,
+                status
+            FROM bookings
+            WHERE booking_id = ?
+            `,
+            [bookingId]
+        );
+
+        res.json({
+            message: "Booking updated successfully",
+            booking: updatedRows[0]
+        });
+
+    } catch (error) {
+        console.error("Update booking error:", error);
+
+        res.status(500).json({
+            message: "Failed to update booking"
         });
     }
-
-    const {
-        customerName,
-        roomNumber,
-        checkInDate,
-        checkOutDate,
-        numberOfGuests,
-        status
-    } = req.body;
-
-    if (customerName !== undefined) {
-        booking.customerName = customerName;
-    }
-
-    if (roomNumber !== undefined) {
-        booking.roomNumber = roomNumber;
-    }
-
-    if (checkInDate !== undefined) {
-        booking.checkInDate = checkInDate;
-    }
-
-    if (checkOutDate !== undefined) {
-        booking.checkOutDate = checkOutDate;
-    }
-
-    if (numberOfGuests !== undefined) {
-        booking.numberOfGuests = numberOfGuests;
-    }
-
-    if (status !== undefined) {
-        booking.status = status;
-    }
-
-    res.json({
-        message: "Booking updated successfully",
-        booking
-    });
 };
+
 
 // Delete booking
-const deleteBooking = (req, res) => {
-    const bookingId = parseInt(req.params.id);
+const deleteBooking = async (req, res) => {
+    try {
+        const bookingId = parseInt(req.params.id);
 
-    const bookingIndex = bookings.findIndex(
-        (booking) => booking.bookingId === bookingId
-    );
+        const [result] = await db.query(
+            "DELETE FROM bookings WHERE booking_id = ?",
+            [bookingId]
+        );
 
-    if (bookingIndex === -1) {
-        return res.status(404).json({
-            message: "Booking not found"
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Booking not found"
+            });
+        }
+
+        res.json({
+            message: "Booking deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Delete booking error:", error);
+
+        res.status(500).json({
+            message: "Failed to delete booking"
         });
     }
-
-    const deletedBooking = bookings.splice(bookingIndex, 1);
-
-    res.json({
-        message: "Booking deleted successfully",
-        booking: deletedBooking[0]
-    });
 };
+
 
 module.exports = {
     getBookings,
