@@ -1,24 +1,69 @@
-import { useState } from 'react'
-import { bookings as initialBookings } from '../services/mockData'
+import { useEffect, useState } from 'react'
+import api from '../services/api'
 
 function BookingManagement() {
-  const [bookings, setBookings] = useState(initialBookings)
+  const [bookings, setBookings] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const statusSequence = ['Confirmed', 'Checked-in', 'Completed']
 
-  function updateStatus(bookingId) {
-    setBookings((currentBookings) => currentBookings.map((booking) => {
-      if (booking.id !== bookingId || booking.status === 'Cancelled') return booking
-      const currentStatusIndex = statusSequence.indexOf(booking.status)
-      const nextStatus = statusSequence[(currentStatusIndex + 1) % statusSequence.length]
-      return { ...booking, status: nextStatus }
-    }))
+  useEffect(() => {
+    async function loadBookings() {
+      try {
+        const response = await api.get('/bookings')
+        if (!Array.isArray(response.data)) {
+          throw new Error('Invalid bookings response')
+        }
+
+        setBookings(response.data.map((booking) => ({
+          id: booking.id ?? booking.bookingId,
+          customer: booking.customer ?? booking.customerName,
+          room: booking.room ?? booking.roomNumber,
+          checkIn: booking.checkIn ?? booking.checkInDate,
+          checkOut: booking.checkOut ?? booking.checkOutDate,
+          status: booking.status ?? 'Confirmed',
+        })))
+      } catch {
+        setErrorMessage('Unable to load bookings. Please try again.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadBookings()
+  }, [])
+
+  async function updateStatus(bookingId) {
+    const booking = bookings.find((currentBooking) => currentBooking.id === bookingId)
+    if (!booking || booking.status === 'Cancelled') return
+
+    const currentStatusIndex = statusSequence.indexOf(booking.status)
+    const nextStatus = statusSequence[(currentStatusIndex + 1) % statusSequence.length]
+
+    try {
+      const response = await api.put(`/bookings/${bookingId}`, { status: nextStatus })
+      const updatedBooking = response.data.booking
+      setBookings((currentBookings) => currentBookings.map((currentBooking) => (
+        currentBooking.id === bookingId
+          ? { ...currentBooking, status: updatedBooking.status }
+          : currentBooking
+      )))
+    } catch {
+      setErrorMessage('Unable to update the booking. Please try again.')
+    }
   }
 
-  function cancelBooking(bookingId) {
-    setBookings((currentBookings) => currentBookings.map((booking) => (
-      booking.id === bookingId ? { ...booking, status: 'Cancelled' } : booking
-    )))
+  async function cancelBooking(bookingId) {
+    try {
+      const response = await api.put(`/bookings/${bookingId}`, { status: 'Cancelled' })
+      const updatedBooking = response.data.booking
+      setBookings((currentBookings) => currentBookings.map((booking) => (
+        booking.id === bookingId ? { ...booking, status: updatedBooking.status } : booking
+      )))
+    } catch {
+      setErrorMessage('Unable to cancel the booking. Please try again.')
+    }
   }
 
   return (
@@ -35,7 +80,10 @@ function BookingManagement() {
               <tr><th>Booking ID</th><th>Customer</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Booking Status</th><th>Actions</th></tr>
             </thead>
             <tbody>
-              {bookings.map((booking) => (
+                {isLoading && <tr><td colSpan="7">Loading bookings...</td></tr>}
+                {!isLoading && errorMessage && <tr><td colSpan="7">{errorMessage}</td></tr>}
+                {!isLoading && !errorMessage && bookings.length === 0 && <tr><td colSpan="7">No bookings found.</td></tr>}
+                {!isLoading && !errorMessage && bookings.map((booking) => (
                 <tr key={booking.id}>
                   <td className="booking-id">{booking.id}</td>
                   <td>{booking.customer}</td>
