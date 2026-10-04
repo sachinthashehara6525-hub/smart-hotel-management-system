@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import api from '../services/api'
 
 function Booking({ isModal = false, onClose }) {
@@ -9,8 +9,31 @@ function Booking({ isModal = false, onClose }) {
     checkOut: '',
     numberOfGuests: '',
   })
+  const [rooms, setRooms] = useState([])
+  const [isRoomsLoading, setIsRoomsLoading] = useState(true)
+  const [roomsError, setRoomsError] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    async function loadRooms() {
+      try {
+        const response = await api.get('/rooms')
+
+        if (!Array.isArray(response.data)) {
+          throw new Error('Invalid rooms response')
+        }
+
+        setRooms(response.data)
+      } catch {
+        setRoomsError('Unable to load rooms')
+      } finally {
+        setIsRoomsLoading(false)
+      }
+    }
+
+    loadRooms()
+  }, [])
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -60,11 +83,14 @@ function Booking({ isModal = false, onClose }) {
 
           <div className="booking-field">
             <label htmlFor="room">Room</label>
-            <select id="room" name="room" value={formData.room} onChange={handleChange} required>
+            <select id="room" name="room" value={formData.room} onChange={handleChange} required disabled={isRoomsLoading || Boolean(roomsError) || rooms.filter((room) => room.status === 'Available').length === 0}>
               <option value="">Select a room</option>
-              <option value="101">Room 101 - Single</option>
-              <option value="201">Room 201 - Deluxe</option>
-              <option value="302">Room 302 - Deluxe</option>
+              {isRoomsLoading && <option value="">Loading rooms...</option>}
+              {!isRoomsLoading && roomsError && <option value="">Unable to load rooms</option>}
+              {!isRoomsLoading && !roomsError && rooms.filter((room) => room.status === 'Available').length === 0 && <option value="">No available rooms</option>}
+              {!isRoomsLoading && !roomsError && rooms.filter((room) => room.status === 'Available').map((room) => (
+                <option key={room.roomId} value={room.number}>Room {room.number} - {room.type}</option>
+              ))}
             </select>
           </div>
 
