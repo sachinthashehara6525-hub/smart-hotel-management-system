@@ -1,17 +1,58 @@
+import { useEffect, useState } from 'react'
+import api from '../services/api'
+
 function Dashboard() {
+  const [summary, setSummary] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    async function loadSummary() {
+      try {
+        const response = await api.get('/dashboard/summary')
+
+        if (!response.data || typeof response.data !== 'object') {
+          throw new Error('Invalid dashboard summary response')
+        }
+
+        setSummary(response.data)
+      } catch {
+        setErrorMessage('Unable to load dashboard summary. Please try again.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadSummary()
+  }, [])
+
+  const displayValue = (value) => {
+    if (isLoading) return '...'
+    if (errorMessage || value === undefined || value === null) return '—'
+    return value
+  }
+
   const metrics = [
-    { label: 'Total Rooms', value: '48', detail: 'Across 3 room types', tone: 'blue' },
-    { label: 'Available Rooms', value: '24', detail: '50% currently available', tone: 'green' },
-    { label: 'Total Bookings', value: '126', detail: '18 check-ins this week', tone: 'orange' },
-    { label: 'Total Customers', value: '312', detail: '14 new this month', tone: 'purple' },
+    { label: 'Total Rooms', value: displayValue(summary?.totalRooms), detail: 'Live room inventory', tone: 'blue' },
+    { label: 'Available Rooms', value: displayValue(summary?.availableRooms), detail: 'Currently available', tone: 'green' },
+    { label: 'Total Bookings', value: displayValue(summary?.totalBookings), detail: 'All reservations', tone: 'orange' },
+    { label: 'Total Customers', value: displayValue(summary?.totalCustomers), detail: 'Registered customers', tone: 'purple' },
   ]
+
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
 
   return (
     <>
       <header className="page-header dashboard-header">
         <div><h1>Dashboard</h1><p>Welcome back. Here is today&apos;s hotel overview.</p></div>
-        <span className="dashboard-date">Saturday, September 26, 2026</span>
+        <span className="dashboard-date">{today}</span>
       </header>
+      {errorMessage && <p className="form-error" role="alert">{errorMessage}</p>}
       <section className="metric-grid" aria-label="Hotel summary metrics">
         {metrics.map((metric) => (
           <article className={`metric-card ${metric.tone}`} key={metric.label}>
@@ -22,10 +63,10 @@ function Dashboard() {
         ))}
       </section>
       <section className="dashboard-summary">
-        <div className="summary-heading"><h2>Today&apos;s overview</h2><span>Dummy operational data</span></div>
-        <div className="summary-row"><span>Occupancy rate</span><strong>50%</strong></div>
-        <div className="summary-row"><span>Pending check-ins</span><strong>8</strong></div>
-        <div className="summary-row"><span>Pending check-outs</span><strong>5</strong></div>
+        <div className="summary-heading"><h2>Today&apos;s overview</h2><span>Live operational data</span></div>
+        <div className="summary-row"><span>Occupancy rate</span><strong>{displayValue(summary?.occupancyRate)}{!isLoading && !errorMessage && summary?.occupancyRate !== undefined ? '%' : ''}</strong></div>
+        <div className="summary-row"><span>Pending check-ins</span><strong>{displayValue(summary?.pendingCheckIns)}</strong></div>
+        <div className="summary-row"><span>Pending check-outs</span><strong>{displayValue(summary?.pendingCheckOuts)}</strong></div>
       </section>
     </>
   )
