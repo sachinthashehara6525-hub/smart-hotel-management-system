@@ -40,6 +40,12 @@ function AppLayout() {
   )
 }
 
+function ProtectedRoute() {
+  const user = localStorage.getItem('user')
+
+  return user ? <Outlet /> : <Navigate to="/login" replace />
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -57,15 +63,17 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         {/* HOTEL ADMIN */}
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/rooms" element={<Rooms />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route
-            path="/booking-management"
-            element={<BookingManagement />}
-          />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/rooms" element={<Rooms />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/customers" element={<Customers />} />
+            <Route
+              path="/booking-management"
+              element={<BookingManagement />}
+            />
+          </Route>
         </Route>
 
         {/* INVALID URL */}
