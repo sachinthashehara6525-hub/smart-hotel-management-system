@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom'
 
 const navigationItems = [
-  { label: 'Home', path: '/' },
-  { label: 'Dashboard', path: '/dashboard' },
-  { label: 'Rooms', path: '/rooms' },
-  { label: 'New Booking', path: '/booking' },
-  { label: 'Customers', path: '/customers' },
-  { label: 'Booking Management', path: '/booking-management' },
+  { label: 'Home', path: '/', icon: '⌂' },
+  { label: 'Dashboard', path: '/dashboard', icon: '▦' },
+  { label: 'Rooms', path: '/rooms', icon: '▤' },
+  { label: 'New Booking', path: '/booking', icon: '+' },
+  { label: 'Customers', path: '/customers', icon: '♙' },
+  { label: 'Booking Management', path: '/booking-management', icon: '◷' },
 ]
 
 function Sidebar() {
@@ -19,6 +19,7 @@ function Sidebar() {
             key={item.path}
             to={item.path}
           >
+            <span className="nav-icon" aria-hidden="true">{item.icon}</span>
             {item.label}
           </NavLink>
         ))}

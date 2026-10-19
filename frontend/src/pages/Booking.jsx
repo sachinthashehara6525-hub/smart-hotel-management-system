@@ -17,6 +17,9 @@ function Booking({ isModal = false, onClose }) {
 
   useEffect(() => {
     async function loadRooms() {
+      setIsRoomsLoading(true)
+      setRoomsError('')
+
       try {
         const response = await api.get('/rooms')
 
@@ -34,6 +37,10 @@ function Booking({ isModal = false, onClose }) {
 
     loadRooms()
   }, [])
+
+  const availableRooms = rooms.filter(
+    (room) => room.status?.trim().toLowerCase() === 'available',
+  )
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -83,15 +90,20 @@ function Booking({ isModal = false, onClose }) {
 
           <div className="booking-field">
             <label htmlFor="room">Room</label>
-            <select id="room" name="room" value={formData.room} onChange={handleChange} required disabled={isRoomsLoading || Boolean(roomsError) || rooms.filter((room) => room.status === 'Available').length === 0}>
+            <select id="room" name="room" value={formData.room} onChange={handleChange} required disabled={isRoomsLoading || Boolean(roomsError) || availableRooms.length === 0}>
               <option value="">Select a room</option>
               {isRoomsLoading && <option value="">Loading rooms...</option>}
               {!isRoomsLoading && roomsError && <option value="">Unable to load rooms</option>}
-              {!isRoomsLoading && !roomsError && rooms.filter((room) => room.status === 'Available').length === 0 && <option value="">No available rooms</option>}
-              {!isRoomsLoading && !roomsError && rooms.filter((room) => room.status === 'Available').map((room) => (
+              {!isRoomsLoading && !roomsError && availableRooms.length === 0 && <option value="">No available rooms</option>}
+              {!isRoomsLoading && !roomsError && availableRooms.map((room) => (
                 <option key={room.roomId} value={room.number}>Room {room.number} - {room.type}</option>
               ))}
             </select>
+            {roomsError && (
+              <p className="form-error" role="alert">
+                Unable to load rooms. Make sure the backend is running, then refresh the page.
+              </p>
+            )}
           </div>
 
           <div className="booking-field">

@@ -1,19 +1,18 @@
 import galleryPool from "../../assets/gallery-pool.jpg";
 import galleryRestaurant from "../../assets/gallery-restaurant.jpg";
 import galleryBathroom from "../../assets/gallery-bathroom.jpg";
-
-import deluxeImg from "../../assets/room-deluxe.jpg";
-import suiteImg from "../../assets/room-suite.jpg";
+import hotelHero from "../../assets/hotel-hero.jpg";
 import hotelAbout from "../../assets/hotel-about.jpg";
+import smartFeatures from "../../assets/smart-features.jpg";
 
 function Gallery() {
   const images = [
     { src: galleryPool, alt: "Luxury infinity pool" },
-    { src: deluxeImg, alt: "Luxury hotel room" },
     { src: galleryRestaurant, alt: "Fine dining restaurant" },
     { src: galleryBathroom, alt: "Luxury hotel bathroom" },
-    { src: suiteImg, alt: "Luxury suite" },
+    { src: hotelHero, alt: "Avelora hotel exterior" },
     { src: hotelAbout, alt: "Luxury hotel interior" },
+    { src: smartFeatures, alt: "Smart hotel guest experience" },
   ];
 
   return (
