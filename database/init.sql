@@ -125,6 +125,20 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'admin@gmail.com','$2b$10$ess3gEuUmBbuSS8awOv3BeL7su9PKYjB5/UsmIKe0fOFPKkzINBUi','admin');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE `sessions` (
+  `session_id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `token_hash` char(64) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`session_id`),
+  UNIQUE KEY `token_hash` (`token_hash`),
+  KEY `sessions_user_id_idx` (`user_id`),
+  KEY `sessions_expires_at_idx` (`expires_at`),
+  CONSTRAINT `sessions_user_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

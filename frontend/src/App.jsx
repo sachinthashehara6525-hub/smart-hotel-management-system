@@ -21,6 +21,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Rooms from './pages/Rooms'
 import Signup from './pages/Signup'
+import { AuthProvider, useAuth } from './context/AuthContext'
 
 import './App.css'
 
@@ -41,15 +42,17 @@ function AppLayout() {
 }
 
 function ProtectedRoute() {
-  const user = localStorage.getItem('user')
+  const { user, isLoading } = useAuth()
 
+  if (isLoading) return null
   return user ? <Outlet /> : <Navigate to="/login" replace />
 }
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
 
         {/* PUBLIC LANDING PAGE */}
         <Route path="/" element={<LandingPage />} />
@@ -79,8 +82,9 @@ function App() {
         {/* INVALID URL */}
         <Route path="*" element={<Navigate to="/" replace />} />
 
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

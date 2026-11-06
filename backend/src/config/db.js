@@ -12,4 +12,23 @@ const pool = mysql.createPool({
     dateStrings: true
 });
 
+const initializeAuthSchema = async () => {
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS sessions (
+            session_id BIGINT NOT NULL AUTO_INCREMENT,
+            user_id INT NOT NULL,
+            token_hash CHAR(64) NOT NULL,
+            expires_at DATETIME NOT NULL,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (session_id),
+            UNIQUE KEY token_hash (token_hash),
+            KEY sessions_user_id_idx (user_id),
+            KEY sessions_expires_at_idx (expires_at),
+            CONSTRAINT sessions_user_fk FOREIGN KEY (user_id)
+                REFERENCES users (user_id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    `);
+};
+
 module.exports = pool;
+module.exports.initializeAuthSchema = initializeAuthSchema;

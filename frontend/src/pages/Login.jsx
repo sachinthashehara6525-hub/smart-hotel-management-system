@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import hotelHero from '../assets/hotel-hero.jpg'
 import api from '../services/api'
+import { useAuth } from '../context/AuthContext'
 import './login.css'
 
 function Login() {
@@ -9,6 +10,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
+  const { refreshUser } = useAuth()
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -22,19 +24,12 @@ function Login() {
     setIsLoading(true)
 
     try {
-      const response = await api.post('/auth/login', {
+      await api.post('/auth/login', {
         email: formData.email,
         password: formData.password,
       })
 
-      const user = response.data?.user
-      if (user?.email && user?.role) {
-        localStorage.setItem('user', JSON.stringify({
-          email: user.email,
-          role: user.role,
-        }))
-      }
-
+      await refreshUser()
       navigate('/dashboard')
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Invalid email or password')
@@ -56,7 +51,6 @@ function Login() {
           <button type="submit" disabled={isLoading}>{isLoading ? 'Signing in...' : 'Sign In'}</button>
           {errorMessage && <p className="form-error" role="alert">{errorMessage}</p>}
         </form>
-        <Link className="auth-link" to="/signup">Create an account</Link>
       </section>
     </div>
   )
