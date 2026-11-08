@@ -35,7 +35,7 @@ function LandingNavbar() {
             </button>
 
             <Link to="/login" className="landing-staff-login">
-              Staff Login
+              Login
             </Link>
           </div>
         </div>

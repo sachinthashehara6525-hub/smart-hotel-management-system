@@ -12,6 +12,10 @@ const navigationItems = [
 function Sidebar() {
   return (
     <aside className="sidebar">
+      <div className="sidebar-heading">
+        <span className="sidebar-kicker">Workspace</span>
+        <span className="sidebar-caption">Manage your hotel</span>
+      </div>
       <nav aria-label="Main navigation">
         {navigationItems.map((item) => (
           <NavLink

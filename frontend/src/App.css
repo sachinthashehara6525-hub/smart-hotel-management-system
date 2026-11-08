@@ -350,4 +350,81 @@ td { padding: 16px 14px; border-top: 1px solid var(--line-soft); }
   .booking-modal-shell { padding: 28px 20px 22px; }
   .date-fields { grid-template-columns: 1fr; }
 }
+
+/* Shared natural luxury shell */
+.app-shell {
+  min-height: 100vh;
+  background: var(--page);
+  animation: shell-fade-in 0.45s ease both;
+}
+
+.navbar {
+  height: 74px;
+  padding: 0 clamp(20px, 4vw, 48px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--sidebar);
+  box-shadow: 0 8px 24px rgba(16, 57, 47, 0.12);
+}
+
+.brand {
+  color: #fffaf0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.brand::before { display: none; }
+.brand-mark { color: var(--orange); font-size: 1.05rem; }
+.navbar-label { color: rgba(255, 250, 240, 0.62); }
+.navbar-brand-group .navbar-label { border-color: rgba(255, 255, 255, 0.18); }
+.navbar-actions { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+.navbar-status { color: rgba(255, 250, 240, 0.72); }
+.navbar-status i { background: #8fbd80; box-shadow: 0 0 0 5px rgba(143, 189, 128, 0.14); }
+.navbar-user { display: inline-flex; align-items: center; gap: 8px; color: #fffaf0; font-size: 0.76rem; text-transform: capitalize; }
+.navbar-avatar { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; color: var(--sidebar); background: var(--orange); font-size: 0.72rem; font-weight: 800; }
+.navbar-signout { padding: 8px 12px; border: 1px solid rgba(255, 250, 240, 0.28); border-radius: 4px; color: #fffaf0; background: transparent; cursor: pointer; font-size: 0.72rem; transition: background 0.2s ease, border-color 0.2s ease; }
+.navbar-signout:hover { border-color: var(--orange); background: rgba(216, 179, 107, 0.15); }
+
+.app-body { min-height: calc(100vh - 74px); }
+.sidebar { width: 246px; flex-basis: 246px; padding: 30px 16px; border-right: 0; background: var(--sidebar); }
+.sidebar-heading { padding: 0 14px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.sidebar-kicker { display: block; color: var(--orange); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.sidebar-caption { display: block; margin-top: 6px; color: rgba(255, 250, 240, 0.58); font-size: 0.75rem; }
+.sidebar nav { top: 104px; gap: 5px; margin-top: 20px; }
+.nav-link { min-height: 46px; border-radius: 7px; color: rgba(255, 250, 240, 0.7); font-size: 0.82rem; transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease; }
+.nav-link:hover, .nav-link.active { border-color: transparent; color: #fffaf0; background: rgba(216, 179, 107, 0.18); transform: translateX(2px); }
+.nav-icon { color: rgba(255, 250, 240, 0.58); }
+.nav-link:hover .nav-icon, .nav-link.active .nav-icon { color: var(--orange); }
+.nav-link.active::before { width: 4px; height: 20px; margin-right: 10px; border-radius: 4px; background: var(--orange); box-shadow: none; }
+
+.page-content { width: min(100%, 1320px); padding: clamp(30px, 5vw, 58px) clamp(20px, 5vw, 64px); }
+.page-content > * { animation: content-rise-in 0.45s ease both; }
+.page-header h1, .table-heading h2, .summary-heading h2 { color: var(--ink); font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
+.metric-card, .dashboard-summary, .table-card, .booking-card { border-color: var(--line); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-sm); }
+.metric-card { background: var(--surface); }
+.metric-card:hover { border-color: rgba(47, 115, 85, 0.28); }
+.dashboard-date { border-radius: 8px; background: var(--surface); }
+.booking-field input, .booking-field select { border-radius: 7px; color: var(--ink); background: var(--surface); }
+.booking-field select option { color: var(--ink); background: var(--surface); }
+.booking-submit { border-radius: 7px; color: #fffaf0; background: var(--sidebar); }
+.booking-submit:hover { box-shadow: 0 10px 22px rgba(16, 57, 47, 0.2); }
+
+@keyframes shell-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes content-rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 680px) {
+  .navbar { min-height: 70px; height: auto; }
+  .navbar-actions { gap: 10px; }
+  .navbar-status { display: none; }
+  .sidebar { width: 100%; padding: 14px; border-bottom: 1px solid rgba(16, 57, 47, 0.16); }
+  .sidebar-heading { display: none; }
+  .sidebar nav { margin-top: 0; }
+  .nav-link:hover, .nav-link.active { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell, .page-content > * { animation: none; }
+  .nav-link, .navbar-signout { transition: none; }
+}
   

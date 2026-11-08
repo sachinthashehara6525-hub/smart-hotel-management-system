@@ -1,25 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
 :root {
-  --ink: #f4f7fb;
-  --muted: #9aa8ba;
-  --muted-light: #68788d;
-  --blue: #5b8cff;
-  --blue-strong: #86a8ff;
-  --blue-soft: rgba(91, 140, 255, 0.12);
-  --cyan: #52d6c7;
-  --green: #55d39a;
-  --orange: #f5b85f;
-  --purple: #b18cff;
-  --surface: rgba(22, 31, 47, 0.88);
-  --surface-strong: #182235;
-  --surface-subtle: #111a29;
-  --line: rgba(159, 178, 204, 0.16);
-  --line-soft: rgba(159, 178, 204, 0.1);
-  --page: #0c1422;
-  --shadow-sm: 0 14px 30px rgba(0, 0, 0, 0.18);
-  --shadow-md: 0 22px 48px rgba(0, 0, 0, 0.26);
-  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.38);
+  --ink: #263b32;
+  --muted: #69756c;
+  --muted-light: #8b948b;
+  --blue: #2f7355;
+  --blue-strong: #5c936f;
+  --blue-soft: rgba(47, 115, 85, 0.11);
+  --cyan: #8ba98b;
+  --green: #4c8b61;
+  --orange: #d8b36b;
+  --purple: #a68d6e;
+  --surface: #fffdf8;
+  --surface-strong: #ece5d7;
+  --surface-subtle: #f5f0e6;
+  --line: rgba(38, 59, 50, 0.13);
+  --line-soft: rgba(38, 59, 50, 0.08);
+  --page: #f7f3ea;
+  --sidebar: #10392f;
+  --shadow-sm: 0 10px 24px rgba(64, 69, 53, 0.08);
+  --shadow-md: 0 18px 38px rgba(64, 69, 53, 0.13);
+  --shadow-lg: 0 26px 70px rgba(64, 69, 53, 0.18);
   font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   color: var(--ink);
   background: var(--page);
@@ -36,8 +37,8 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    radial-gradient(circle at 10% -10%, rgba(91, 140, 255, 0.16), transparent 30%),
-    radial-gradient(circle at 100% 100%, rgba(82, 214, 199, 0.08), transparent 28%),
+    radial-gradient(circle at 8% -10%, rgba(216, 179, 107, 0.12), transparent 28%),
+    radial-gradient(circle at 100% 100%, rgba(47, 115, 85, 0.08), transparent 30%),
     var(--page);
   color: var(--ink);
 }
@@ -47,4 +48,3 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 a { text-decoration: none; }
 
 img { max-width: 100%; display: block; }
-

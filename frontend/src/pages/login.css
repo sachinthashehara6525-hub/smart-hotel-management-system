@@ -44,6 +44,33 @@
   animation: login-content-in 0.65s 0.22s ease both;
 }
 
+.login-type-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 4px;
+  border: 1px solid var(--login-line);
+  background: rgba(247, 243, 235, 0.06);
+}
+
+.login-type-switcher button {
+  min-height: 38px;
+  border: 0;
+  color: var(--login-muted);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.login-type-switcher button.is-selected {
+  color: #17140e;
+  background: var(--login-gold);
+}
+
 .login-page .auth-form {
   display: grid;
   gap: 10px;
@@ -96,6 +123,8 @@
 .login-page .auth-form button:hover { color: var(--login-ink); background: transparent; transform: translateY(-2px); }
 .login-page .auth-link { display: inline-block; margin-top: 24px; color: var(--login-muted); font-size: 0.86rem; animation: login-content-in 0.65s 0.58s ease both; }
 .login-page .auth-link:hover { color: var(--login-gold); }
+.login-page .signup-link { display: block; margin-top: 18px; color: var(--login-gold); font-size: 0.86rem; text-align: center; }
+.login-page .signup-link:hover { color: var(--login-ink); }
 
 @keyframes login-background-in {
   from { opacity: 0; background-position: 52% center; }

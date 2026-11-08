@@ -17,12 +17,23 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-brand-group">
-        <Link className="brand" to="/" aria-label="Aelorea home">Aelorea</Link>
+        <Link className="brand" to="/" aria-label="Aelorea home">
+          <span className="brand-mark" aria-hidden="true">✦</span>
+          <span>Aelorea</span>
+        </Link>
         <span className="navbar-label">Hotel operations</span>
       </div>
-      <div>
+      <div className="navbar-actions">
         <span className="navbar-status"><i /> Operations online</span>
-        {user && <button type="button" onClick={handleLogout}>Sign out</button>}
+        {user && (
+          <>
+            <span className="navbar-user">
+              <span className="navbar-avatar" aria-hidden="true">{user.email.charAt(0).toUpperCase()}</span>
+              <span>{user.role}</span>
+            </span>
+            <button className="navbar-signout" type="button" onClick={handleLogout}>Sign out</button>
+          </>
+        )}
       </div>
     </header>
   )
