@@ -46,4 +46,13 @@ const requireAdmin = (req, res, next) => {
     return next();
 };
 
-module.exports = { requireAuth, requireAdmin };
+const requireStaffOrAdmin = (req, res, next) => {
+    if (!["staff", "admin"].includes(req.user?.role)) {
+        return res.status(403).json({
+            message: "Hotel staff access required"
+        });
+    }
+    return next();
+};
+
+module.exports = { requireAuth, requireAdmin, requireStaffOrAdmin };

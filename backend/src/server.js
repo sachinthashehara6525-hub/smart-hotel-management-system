@@ -9,7 +9,7 @@ const customerRoutes = require("./routes/customerRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const db = require("./config/db");
 
-const { requireAuth } = require("./middleware/auth");
+const { requireAuth, requireStaffOrAdmin } = require("./middleware/auth");
 
 const createApp = () => {
     const app = express();
@@ -20,11 +20,11 @@ const createApp = () => {
     }));
     app.use(express.json());
 
-    app.use("/api/rooms", requireAuth, roomRoutes);
+    app.use("/api/rooms", requireAuth, requireStaffOrAdmin, roomRoutes);
     app.use("/api/auth", authRoutes);
-    app.use("/api/bookings", requireAuth, bookingRoutes);
-    app.use("/api/customers", requireAuth, customerRoutes);
-    app.use("/api/dashboard", requireAuth, dashboardRoutes);
+    app.use("/api/bookings", requireAuth, requireStaffOrAdmin, bookingRoutes);
+    app.use("/api/customers", requireAuth, requireStaffOrAdmin, customerRoutes);
+    app.use("/api/dashboard", requireAuth, requireStaffOrAdmin, dashboardRoutes);
 
     app.get("/", (req, res) => {
         res.json({
