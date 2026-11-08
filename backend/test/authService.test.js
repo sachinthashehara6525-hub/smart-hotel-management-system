@@ -6,6 +6,7 @@ const {
     getSessionExpiry,
     hashSessionToken,
     normalizeEmail,
+    validateEmail,
     validatePassword
 } = require("../src/services/authService");
 
@@ -18,6 +19,11 @@ test("enforces a strong bounded password length", () => {
     assert.equal(validatePassword("short"), false);
     assert.equal(validatePassword("correct horse battery staple"), true);
     assert.equal(validatePassword("a".repeat(129)), false);
+});
+
+test("validates normalized email addresses", () => {
+    assert.equal(validateEmail(normalizeEmail(" Guest@Example.com ")), true);
+    assert.equal(validateEmail("not-an-email"), false);
 });
 
 test("creates unpredictable, one-way session token identifiers", () => {

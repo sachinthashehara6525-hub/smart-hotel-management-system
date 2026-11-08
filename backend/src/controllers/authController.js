@@ -5,6 +5,7 @@ const {
     hashSessionToken,
     normalizeEmail,
     passwordHashForTiming,
+    validateEmail,
     validatePassword
 } = require("../services/authService");
 const db = require("../config/db");
@@ -93,6 +94,32 @@ const getCurrentUser = (req, res) => res.json({
     }
 });
 
+const registerGuest = async (req, res) => {
+    const email = normalizeEmail(req.body?.email);
+    const { password } = req.body || {};
+
+    if (!validateEmail(email) || !validatePassword(password)) {
+        return res.status(400).json({
+            message: "A valid email and a password of 12 to 128 characters are required"
+        });
+    }
+
+    try {
+        const passwordHash = await bcrypt.hash(password, 12);
+        await db.query(
+            "INSERT INTO users (email, password_hash, role) VALUES (?, ?, 'guest')",
+            [email, passwordHash]
+        );
+        return res.status(201).json({ message: "Guest account created" });
+    } catch (error) {
+        if (error.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({ message: "An account with that email already exists" });
+        }
+        console.error("Guest account creation error:", error);
+        return res.status(500).json({ message: "Unable to create guest account" });
+    }
+};
+
 const createStaffAccount = async (req, res) => {
     const email = normalizeEmail(req.body?.email);
     const { password } = req.body || {};
@@ -153,6 +180,7 @@ module.exports = {
     loginUser,
     logoutUser,
     getCurrentUser,
+    registerGuest,
     createStaffAccount,
     resetStaffPassword
 };

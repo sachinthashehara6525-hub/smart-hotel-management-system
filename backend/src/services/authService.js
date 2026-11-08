@@ -13,6 +13,12 @@ const validatePassword = (password) => (
     password.length <= 128
 );
 
+const validateEmail = (email) => (
+    typeof email === "string" &&
+    email.length <= 255 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+);
+
 const createSessionToken = () => crypto.randomBytes(32).toString("base64url");
 
 const hashSessionToken = (token) => (
@@ -25,6 +31,7 @@ module.exports = {
     SESSION_TTL_MS,
     passwordHashForTiming,
     normalizeEmail,
+    validateEmail,
     validatePassword,
     createSessionToken,
     hashSessionToken,
