@@ -9,7 +9,7 @@ const normalizeEmail = (email) => (
 
 const validatePassword = (password) => (
     typeof password === "string" &&
-    password.length >= 12 &&
+    password.length >= 6 &&
     password.length <= 128
 );
 

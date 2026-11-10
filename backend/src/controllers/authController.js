@@ -100,7 +100,7 @@ const registerGuest = async (req, res) => {
 
     if (!validateEmail(email) || !validatePassword(password)) {
         return res.status(400).json({
-            message: "A valid email and a password of 12 to 128 characters are required"
+            message: "A valid email and a password of 6 to 128 characters are required"
         });
     }
 
@@ -126,7 +126,7 @@ const createStaffAccount = async (req, res) => {
 
     if (!email || !validatePassword(password)) {
         return res.status(400).json({
-            message: "A valid email and a password of 12 to 128 characters are required"
+            message: "A valid email and a password of 6 to 128 characters are required"
         });
     }
 
@@ -152,7 +152,7 @@ const resetStaffPassword = async (req, res) => {
 
     if (!email || !validatePassword(password)) {
         return res.status(400).json({
-            message: "A valid email and a password of 12 to 128 characters are required"
+            message: "A valid email and a password of 6 to 128 characters are required"
         });
     }
 

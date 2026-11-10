@@ -328,6 +328,10 @@ td { padding: 16px 14px; border-top: 1px solid var(--line-soft); }
 .status-badge { display: inline-flex; padding: 5px 9px; border: 1px solid var(--line); color: var(--blue-strong); font-size: 0.7rem; }
 .action-button { padding: 8px 11px; border: 1px solid var(--line); color: var(--muted); background: transparent; cursor: pointer; font-size: 0.72rem; }
 .action-button:hover { border-color: var(--blue); color: var(--ink); }
+.action-button.delete { color: #b14f42; }
+.action-button.delete:hover { border-color: #b14f42; color: #8f3025; }
+.delete-icon { width: 34px; padding: 8px 0; font-size: 1rem; line-height: 1; }
+.action-button:disabled { cursor: not-allowed; opacity: 0.6; }
 
 @media (max-width: 900px) {
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -400,15 +404,42 @@ td { padding: 16px 14px; border-top: 1px solid var(--line-soft); }
 
 .page-content { width: min(100%, 1320px); padding: clamp(30px, 5vw, 58px) clamp(20px, 5vw, 64px); }
 .page-content > * { animation: content-rise-in 0.45s ease both; }
-.page-header h1, .table-heading h2, .summary-heading h2 { color: var(--ink); font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
+.page-header h1, .table-heading h2, .summary-heading h2 { color: #172f49; font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
 .metric-card, .dashboard-summary, .table-card, .booking-card { border-color: var(--line); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-sm); }
 .metric-card { background: var(--surface); }
 .metric-card:hover { border-color: rgba(47, 115, 85, 0.28); }
 .dashboard-date { border-radius: 8px; background: var(--surface); }
 .booking-field input, .booking-field select { border-radius: 7px; color: var(--ink); background: var(--surface); }
 .booking-field select option { color: var(--ink); background: var(--surface); }
-.booking-submit { border-radius: 7px; color: #fffaf0; background: var(--sidebar); }
-.booking-submit:hover { box-shadow: 0 10px 22px rgba(16, 57, 47, 0.2); }
+.booking-submit { border-radius: 7px; color: #26301f; background: var(--orange); }
+.booking-submit:hover { color: #fffaf0; background: #b99451; box-shadow: 0 10px 22px rgba(181, 137, 67, 0.22); }
+
+.app-shell .status-badge {
+  border-color: rgba(216, 179, 107, 0.55);
+  color: #8c6b36;
+  background: #fbf4e3;
+}
+
+.app-shell .status-badge.available,
+.app-shell .status-badge.confirmed,
+.app-shell .status-badge.checked-in {
+  border-color: rgba(216, 179, 107, 0.55);
+  color: #8c6b36;
+  background: #fbf4e3;
+}
+
+.app-shell .status-badge.occupied,
+.app-shell .status-badge.cancelled {
+  border-color: rgba(166, 91, 67, 0.28);
+  color: #a65b43;
+  background: #fbebe5;
+}
+
+.app-shell .status-badge.pending {
+  border-color: rgba(181, 137, 67, 0.35);
+  color: #9a7134;
+  background: #fff5dc;
+}
 
 @keyframes shell-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes content-rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }

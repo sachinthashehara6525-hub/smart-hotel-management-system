@@ -10,7 +10,9 @@ export function AuthProvider({ children }) {
   async function refreshUser() {
     try {
       const response = await api.get('/auth/me')
-      setUser(response.data.user)
+      const currentUser = response.data.user
+      setUser(currentUser)
+      return currentUser
     } catch (error) {
       if (error.response?.status === 401) {
         setUser(null)

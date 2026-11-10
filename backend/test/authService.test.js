@@ -17,6 +17,7 @@ test("normalizes email addresses before account lookup", () => {
 
 test("enforces a strong bounded password length", () => {
     assert.equal(validatePassword("short"), false);
+    assert.equal(validatePassword("six789"), true);
     assert.equal(validatePassword("correct horse battery staple"), true);
     assert.equal(validatePassword("a".repeat(129)), false);
 });

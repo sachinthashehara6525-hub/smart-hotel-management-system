@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import api from '../services/api'
+import hotelHero from '../assets/hotel-hero.jpg'
+import './dashboard-navy.css'
 
 function Dashboard() {
   const [summary, setSummary] = useState(null)
@@ -28,15 +30,15 @@ function Dashboard() {
 
   const displayValue = (value) => {
     if (isLoading) return '...'
-    if (errorMessage || value === undefined || value === null) return '—'
+    if (errorMessage || value === undefined || value === null) return 'â€”'
     return value
   }
 
   const metrics = [
-    { label: 'Total Rooms', value: displayValue(summary?.totalRooms), detail: 'Live room inventory', tone: 'blue', icon: '▦' },
-    { label: 'Available Rooms', value: displayValue(summary?.availableRooms), detail: 'Currently available', tone: 'green', icon: '⌂' },
-    { label: 'Total Bookings', value: displayValue(summary?.totalBookings), detail: 'All reservations', tone: 'orange', icon: '↗' },
-    { label: 'Total Customers', value: displayValue(summary?.totalCustomers), detail: 'Registered customers', tone: 'purple', icon: '♙' },
+    { label: 'Total Rooms', value: displayValue(summary?.totalRooms), detail: 'Live room inventory', tone: 'blue', icon: 'â–¦' },
+    { label: 'Available Rooms', value: displayValue(summary?.availableRooms), detail: 'Currently available', tone: 'green', icon: 'âŒ‚' },
+    { label: 'Total Bookings', value: displayValue(summary?.totalBookings), detail: 'All reservations', tone: 'orange', icon: 'â†—' },
+    { label: 'Total Customers', value: displayValue(summary?.totalCustomers), detail: 'Registered customers', tone: 'purple', icon: 'â™™' },
   ]
 
   const today = new Date().toLocaleDateString(undefined, {
@@ -48,7 +50,7 @@ function Dashboard() {
 
   return (
     <>
-      <header className="page-header dashboard-header">
+      <header className="page-header dashboard-header" style={{ backgroundImage: `linear-gradient(90deg, rgba(10,17,29,.96), rgba(10,17,29,.72), rgba(10,17,29,.15)), url(${hotelHero})` }}>
         <div>
           <span className="dashboard-eyebrow">OPERATIONS CENTER</span>
           <h1>Dashboard</h1>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import hotelHero from '../assets/hotel-hero.jpg'
 import api from '../services/api'
+import './login.css'
 import './signup.css'
 
 function Signup() {
@@ -28,8 +29,8 @@ function Signup() {
       return
     }
 
-    if (formData.password.length < 12 || formData.password.length > 128) {
-      setErrorMessage('Password must be between 12 and 128 characters.')
+    if (formData.password.length < 6 || formData.password.length > 128) {
+      setErrorMessage('Password must be between 6 and 128 characters.')
       return
     }
 
@@ -49,20 +50,19 @@ function Signup() {
   }
 
   return (
-    <div className="signup-page" style={{ '--signup-background': `url(${hotelHero})` }}>
-      <section className="signup-card">
-        <p className="signup-eyebrow">The Smart Hotel</p>
-        <h1>Stay in the know.</h1>
-        <p className="signup-intro">Create your guest account for a more effortless hotel experience.</p>
-        <form className="signup-form" onSubmit={handleSubmit}>
+    <div className="login-page signup-page" style={{ '--login-background': `url(${hotelHero})` }}>
+      <section className="auth-panel signup-card">
+        <h1>Create your account</h1>
+        <p>Join us as a guest and book your stay with ease.</p>
+        <form className="auth-form signup-form" onSubmit={handleSubmit}>
           <label htmlFor="signup-email">Email</label>
           <input id="signup-email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" autoComplete="email" required />
           <label htmlFor="signup-password">Password</label>
-          <input id="signup-password" name="password" type="password" value={formData.password} onChange={handleChange} placeholder="12 to 128 characters" autoComplete="new-password" required />
+          <input id="signup-password" name="password" type="password" value={formData.password} onChange={handleChange} placeholder="6 to 128 characters" autoComplete="new-password" required />
           <label htmlFor="signup-confirm-password">Confirm password</label>
           <input id="signup-confirm-password" name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} placeholder="Repeat your password" autoComplete="new-password" required />
           <button type="submit" disabled={isLoading}>{isLoading ? 'Creating account...' : 'Create guest account'}</button>
-          {errorMessage && <p className="signup-message signup-error" role="alert">{errorMessage}</p>}
+          {errorMessage && <p className="form-error signup-message signup-error" role="alert">{errorMessage}</p>}
           {successMessage && <p className="signup-message signup-success" role="status">{successMessage}</p>}
         </form>
         <p className="signup-login">Already have an account? <Link to="/login">Sign in</Link></p>

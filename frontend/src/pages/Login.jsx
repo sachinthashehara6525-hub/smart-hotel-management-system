@@ -44,7 +44,7 @@ function Login() {
         setErrorMessage('Please use the Admin login option for this account.')
         return
       }
-      navigate('/dashboard')
+      navigate(loginType === 'guest' ? '/' : '/dashboard')
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Invalid email or password')
     } finally {

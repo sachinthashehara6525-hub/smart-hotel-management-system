@@ -5,6 +5,7 @@ require("dotenv").config();
 const roomRoutes = require("./routes/roomRoutes");
 const authRoutes = require("./routes/authRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const publicBookingRoutes = require("./routes/publicBookingRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const db = require("./config/db");
@@ -22,6 +23,7 @@ const createApp = () => {
 
     app.use("/api/rooms", requireAuth, requireStaffOrAdmin, roomRoutes);
     app.use("/api/auth", authRoutes);
+    app.use("/api/public", publicBookingRoutes);
     app.use("/api/bookings", requireAuth, requireStaffOrAdmin, bookingRoutes);
     app.use("/api/customers", requireAuth, requireStaffOrAdmin, customerRoutes);
     app.use("/api/dashboard", requireAuth, requireStaffOrAdmin, dashboardRoutes);

@@ -66,6 +66,21 @@ function BookingManagement() {
     }
   }
 
+  async function deleteBooking(bookingId) {
+    if (!window.confirm('Delete this booking? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      await api.delete(`/bookings/${bookingId}`)
+      setBookings((currentBookings) => currentBookings.filter(
+        (booking) => booking.id !== bookingId
+      ))
+    } catch {
+      setErrorMessage('Unable to delete the booking. Please try again.')
+    }
+  }
+
   return (
     <>
       <header className="page-header">
@@ -94,6 +109,15 @@ function BookingManagement() {
                   <td className="booking-actions">
                     <button type="button" className="action-button update" onClick={() => updateStatus(booking.id)} disabled={booking.status === 'Cancelled'}>Update Status</button>
                     <button type="button" className="action-button cancel" onClick={() => cancelBooking(booking.id)} disabled={booking.status === 'Cancelled'}>Cancel Booking</button>
+                    <button
+                      type="button"
+                      className="action-button delete delete-icon"
+                      onClick={() => deleteBooking(booking.id)}
+                      aria-label="Delete booking"
+                      title="Delete booking"
+                    >
+                      <span aria-hidden="true">🗑</span>
+                    </button>
                   </td>
                 </tr>
               ))}

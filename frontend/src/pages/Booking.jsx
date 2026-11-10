@@ -21,7 +21,7 @@ function Booking({ isModal = false, onClose }) {
       setRoomsError('')
 
       try {
-        const response = await api.get('/rooms')
+        const response = await api.get('/public/rooms')
 
         if (!Array.isArray(response.data)) {
           throw new Error('Invalid rooms response')
@@ -54,7 +54,7 @@ function Booking({ isModal = false, onClose }) {
     setErrorMessage('')
 
     try {
-      await api.post('/bookings', {
+      await api.post('/public/bookings', {
         customerName: formData.customerName,
         roomNumber: Number(formData.room),
         checkInDate: formData.checkIn,

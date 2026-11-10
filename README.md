@@ -169,6 +169,29 @@ A Pull Request can then be created to merge the branch into `main`.
 
 Testing is used to verify that the main features of the Hotel Management System work correctly.
 
+## Local Development
+
+Docker Compose runs the shared MySQL database on `127.0.0.1:3307`. The local Express server reads `backend/.env` and connects to that database, while the Docker Express service uses `mysql:3306`.
+
+Start the database:
+
+```bash
+docker compose up -d mysql
+```
+
+Run the local hot-reload servers in separate terminals:
+
+```bash
+npm --prefix backend run dev
+npm --prefix frontend run dev
+```
+
+To run the full application in Docker instead, use the Docker profile:
+
+```bash
+docker compose --profile docker up -d
+```
+
 The project includes:
 
 * Unit Testing
